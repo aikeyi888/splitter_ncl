@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="splitter_ncl" default="jar" basedir=".">
+
+	<path id="lib_classpath">
+		<fileset dir="${basedir}/lib/">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<target name="clean">
+		<delete dir="${basedir}/build" />
+	</target>
+
+	<target name="compile" depends="clean">
+		<mkdir dir="${basedir}/build/classes" />
+		
+		<copy todir="${basedir}/build/classes" file="${basedir}/src/log4j.properties"/>
+		
+		<javac srcdir="${basedir}/src" destdir="${basedir}/build/classes" includeantruntime="on">
+			<classpath refid="lib_classpath" />
+		</javac>
+	</target>
+
+	<target name="run" depends="compile">
+		<java classname="com.wisdom.ncl.splitter.Test">
+			<classpath>
+				<pathelement path="${basedir}/build/classes" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="jar" depends="run">
+		<jar destfile="splitter_ncl.jar" basedir="${basedir}/build/classes">
+			<manifest>
+				<attribute name="Main-class" value="com.wisdom.ncl.splitter.Test" />
+			</manifest>
+		</jar>
+	</target>
+
+</project>
